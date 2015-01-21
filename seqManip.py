@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Created on Tue Jan 20 11:26:29 2015
-
 @author: ryanterrill github.com/enicurus
-
 First assignment for Computational Phylogenetics
 """
 
@@ -100,7 +98,6 @@ Nested for loop searches each of the lists of codons above and compares them to 
 base pair lists provided by location, if all three match up, it returns the Amino Acid
 listed in the same row. If not, it keeps looking. The list is then merged into a string
 and printed
-
 """
 for i in range(0,206):
     for j in range(0,64):
@@ -115,7 +112,7 @@ print(AAlist)
 def translate(sequence,Base1,Base2,Base3,AAs):
     RNAseqCtoG = sequence.replace("c","G") # convert the DNA sequence to its RNA counterpart #
     RNAseqGtoC = RNAseqCtoG.replace("g","C")
-    RNAseqAtoU = RNAseqGtoC.replace("a","U") #uses T instead of U to correspond with dictionary #
+    RNAseqAtoU = RNAseqGtoC.replace("a","T") #uses T instead of U to correspond with dictionary #
     RNAseq = RNAseqAtoU.replace("t","A")
     cod1 = []
     for i in range(0,len(RNAseq),3):
@@ -134,11 +131,11 @@ def translate(sequence,Base1,Base2,Base3,AAs):
     base3=Base3.lower()
     for i in range(0,206):
         for j in range(0,64):
-            if cod1[i]==base1[j] and cod2[i]==base2[j] and cod3[i]==base3[j]:
+            if cod1[i]==Base1[j] and cod2[i]==Base2[j] and cod3[i]==Base3[j]:
                 AA.append(AAs[j])
                 
     AAlist=''.join(AA)
-    return(AAlist)
-    print(AAlist)    
+
+    print(AAlist)
     
    
