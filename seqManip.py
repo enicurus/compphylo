@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-
-#Created on Tue Jan 20 11:26:29 2015
-#@author: ryanterrill github.com/enicurus
-#First assignment for Computational Phylogenetics
-
+"""
+Created on Tue Jan 20 11:26:29 2015
+@author: ryanterrill github.com/enicurus
+First assignment for Computational Phylogenetics
+"""
 
 # DNA sequence copied from from https://github.com/jembrown/CompPhylo_Spr2015/blob/master/CodingSeq.txt)###
 
@@ -24,18 +24,28 @@ RNAseqGtoC = RNAseqCtoG.replace("g","C")
 RNAseqAtoU = RNAseqGtoC.replace("a","U")
 RNAseq = RNAseqAtoU.replace("t","A")
 
-# print the RNA sequence in lower case letters #
-print(RNAseq.lower())
 
+
+# print the RNA sequence in lower case letters #		
+print(RNAseq.lower())		
+ 		 
+# make a new string with the reverse complement DNA sequence #		
+seqrev=seq[::-1]		
+ 		 
+#print reversed sequence
+		
+print(seqrev)		
+		
+#extract 13th and 14th codons#		
+		
+seq1314 = seq[13]+seq[14]		
+ 		 
+# print 13th and 14th codons #		
+ 		 
+print(seq1314)
 
 # Amino Acid Translation table from https://github.com/jembrown/CompPhylo_Spr2015/blob/master/VertMitTransTable.txt
 
-
-import requests
-
-r = requests.get("https://raw.githubusercontent.com/jembrown/CompPhylo_Spr2015/master/VertMitTransTable.txt")
-
-print r.text
 
 # Copy the sequences of Amino Acids and base pairs in as a strings #
 
@@ -45,7 +55,7 @@ Base2 = str("TTTTCCCCAAAAGGGGTTTTCCCCAAAAGGGGTTTTCCCCAAAAGGGGTTTTCCCCAAAAGGGG")
 Base3 = str("TCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAG")
 
 
-
+# split DNA sequence into three strings by codon position #
 
 # check length of the sequence #
 
@@ -88,14 +98,17 @@ for i in range(2,618,3):
     
 AA=[]
 
+# Convert the strings of bases from the reference to lower case #
+base1=Base1.lower()
+base2=Base2.lower()
+base3=Base3.lower()
 
-
-
-#Nested for loop searches each of the lists of codons above and compares them to the
-#base pair lists provided by location, if all three match up, it returns the Amino Acid
-#listed in the same row. If not, it keeps looking. The list is then merged into a string
-#and printed
-
+"""
+Nested for loop searches each of the lists of codons above and compares them to the
+base pair lists provided by location, if all three match up, it returns the Amino Acid
+listed in the same row. If not, it keeps looking. The list is then merged into a string
+and printed
+"""
 for i in range(0,206):
     for j in range(0,64):
         if cod1[i]==base1[j] and cod2[i]==base2[j] and cod3[i]==base3[j]:
@@ -104,11 +117,13 @@ for i in range(0,206):
 AAlist=''.join(AA)
 print(AAlist)
    
-#Put everything done above in a generalized function that takes the DNA sequence as an input but assumes the library has been loaded#
-#as three separate strings as above#
+#Put everything done above in a generalized function that takes a 3'->5' DNA sequence 
+#as an input but assumes the library has been loaded as four separate strings as above
 
 
-def translate(sequence):
+   
+def translate(seq3prime):
+    sequence=seq3prime[::-1] # reverse the sequence so it starts with the 5' end
     RNAseqCtoG = sequence.replace("c","G") # convert the DNA sequence to its RNA counterpart #
     RNAseqGtoC = RNAseqCtoG.replace("g","C")
     RNAseqAtoU = RNAseqGtoC.replace("a","T") #uses T instead of U to correspond with dictionary #
@@ -129,8 +144,7 @@ def translate(sequence):
 #Nested for loop searches each of the lists of codons above and compares them to the#
 #base pair lists provided by location, if all three match up, it returns the Amino Acid#
 #listed in the same row. If not, it keeps looking. The list is then merged into a string#
-#and printed
-
+#and printed#
     for i in range(0,206):
         for j in range(0,64):
             if cod1[i]==Base1[j] and cod2[i]==Base2[j] and cod3[i]==Base3[j]:
