@@ -70,7 +70,7 @@ print(codon3Position)
 
 print(seq[1])
 
-# make string containing each codon, with the orphan bases left out
+# make string containing each codon, with the orphan bases left out #
    
 cod1 = []
 for i in range(0,618,3):
@@ -107,14 +107,14 @@ for i in range(0,206):
 AAlist=''.join(AA)
 print(AAlist)
    
-   
+
    
 def translate(sequence,Base1,Base2,Base3,AAs):
     RNAseqCtoG = sequence.replace("c","G") # convert the DNA sequence to its RNA counterpart #
     RNAseqGtoC = RNAseqCtoG.replace("g","C")
     RNAseqAtoU = RNAseqGtoC.replace("a","T") #uses T instead of U to correspond with dictionary #
     RNAseq = RNAseqAtoU.replace("t","A")
-    cod1 = []
+    cod1 = [] # make string containing each codon, with the orphan bases left out #
     for i in range(0,len(RNAseq),3):
         cod1.append(RNAseq[i]) 
     
@@ -125,10 +125,12 @@ def translate(sequence,Base1,Base2,Base3,AAs):
     cod3 = []
     for i in range(2,len(RNAseq),3):
         cod3.append(RNAseq[i]) 
-    AA=[]
-    base1=Base1.lower()
-    base2=Base2.lower()
-    base3=Base3.lower()
+    AA=[] # Define a new list #
+
+#Nested for loop searches each of the lists of codons above and compares them to the#
+#base pair lists provided by location, if all three match up, it returns the Amino Acid#
+#listed in the same row. If not, it keeps looking. The list is then merged into a string#
+#and printed#
     for i in range(0,206):
         for j in range(0,64):
             if cod1[i]==Base1[j] and cod2[i]==Base2[j] and cod3[i]==Base3[j]:
@@ -136,6 +138,4 @@ def translate(sequence,Base1,Base2,Base3,AAs):
                 
     AAlist=''.join(AA)
 
-    print(AAlist)
-    
-   
+    print(AAlist) 
