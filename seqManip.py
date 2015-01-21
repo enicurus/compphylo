@@ -29,23 +29,15 @@ RNAseq = RNAseqAtoU.replace("t","A")
 # print the RNA sequence in lower case letters #
 print(RNAseq.lower())
 
-# make a new string with the reverse complement DNA sequence #
-seqrev=seq[::-1]
-
-#print reversed sequence #
-
-print(seqrev)
-
-#extract 13th and 14th codons#
-
-seq1314 = seq[13]+seq[14]
-
-# print 13th and 14th codons #
-
-print(seq1314)
 
 # Amino Acid Translation table from https://github.com/jembrown/CompPhylo_Spr2015/blob/master/VertMitTransTable.txt
 
+
+import requests
+
+r = requests.get("https://raw.githubusercontent.com/jembrown/CompPhylo_Spr2015/master/VertMitTransTable.txt")
+
+print r.text
 
 # Copy the sequences of Amino Acids and base pairs in as a strings #
 
@@ -55,13 +47,30 @@ Base2 = str("TTTTCCCCAAAAGGGGTTTTCCCCAAAAGGGGTTTTCCCCAAAAGGGGTTTTCCCCAAAAGGGG")
 Base3 = str("TCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAGTCAG")
 
 
-
+# split DNA sequence into three strings by codon position #
 
 # check length of the sequence #
 
 len(seq)
 
+# find the positions of the first codons by counting by threes starting at the first #
+codon1Position = range(0,621,3)
 
+print(codon1Position)
+
+# find the position of the second and third codons by counting by threes starting at second and third codons, respectively #
+
+codon2Position = range(1,621,3)
+codon3Position = range(2,621,3)
+
+# check that this looks right #
+
+print(codon2Position)
+print(codon3Position)
+
+# extract codon by position and put in a new string #
+
+print(seq[1])
 
 # make string containing each codon, with the orphan bases left out
    
@@ -100,4 +109,36 @@ for i in range(0,206):
                 
 AAlist=''.join(AA)
 print(AAlist)
+   
+   
+   
+def translate(sequence,Base1,Base2,Base3,AAs):
+    RNAseqCtoG = sequence.replace("c","G") # convert the DNA sequence to its RNA counterpart #
+    RNAseqGtoC = RNAseqCtoG.replace("g","C")
+    RNAseqAtoU = RNAseqGtoC.replace("a","U") #uses T instead of U to correspond with dictionary #
+    RNAseq = RNAseqAtoU.replace("t","A")
+    cod1 = []
+    for i in range(0,len(RNAseq),3):
+        cod1.append(RNAseq[i]) 
+    
+    cod2 = []
+    for i in range(1,len(RNAseq),3):
+        cod2.append(RNAseq[i]) 
+    
+    cod3 = []
+    for i in range(2,len(RNAseq),3):
+        cod3.append(RNAseq[i]) 
+    AA=[]
+    base1=Base1.lower()
+    base2=Base2.lower()
+    base3=Base3.lower()
+    for i in range(0,206):
+        for j in range(0,64):
+            if cod1[i]==base1[j] and cod2[i]==base2[j] and cod3[i]==base3[j]:
+                AA.append(AAs[j])
+                
+    AAlist=''.join(AA)
+    return(AAlist)
+    print(AAlist)    
+    
    
