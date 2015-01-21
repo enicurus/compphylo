@@ -76,10 +76,6 @@ codon3Position = range(2,621,3)
 print(codon2Position)
 print(codon3Position)
 
-# extract codon by position and put in a new string #
-
-print(seq[1])
-
 # make string containing each codon, with the orphan bases left out #
    
 cod1 = []
