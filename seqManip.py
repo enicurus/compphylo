@@ -149,3 +149,5 @@ def translate(seq3prime):
     AAlist=''.join(AA)
 
     print(AAlist) 
+#see if the function works
+translate(seq)
