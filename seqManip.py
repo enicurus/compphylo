@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Tue Jan 20 11:26:29 2015
-@author: ryanterrill github.com/enicurus
-First assignment for Computational Phylogenetics
-"""
+
+#Created on Tue Jan 20 11:26:29 2015
+#@author: ryanterrill github.com/enicurus
+#First assignment for Computational Phylogenetics
+
 
 # DNA sequence copied from from https://github.com/jembrown/CompPhylo_Spr2015/blob/master/CodingSeq.txt)###
 
@@ -90,12 +90,12 @@ AA=[]
 
 
 
-"""
-Nested for loop searches each of the lists of codons above and compares them to the
-base pair lists provided by location, if all three match up, it returns the Amino Acid
-listed in the same row. If not, it keeps looking. The list is then merged into a string
-and printed
-"""
+
+#Nested for loop searches each of the lists of codons above and compares them to the
+#base pair lists provided by location, if all three match up, it returns the Amino Acid
+#listed in the same row. If not, it keeps looking. The list is then merged into a string
+#and printed
+
 for i in range(0,206):
     for j in range(0,64):
         if cod1[i]==base1[j] and cod2[i]==base2[j] and cod3[i]==base3[j]:
@@ -106,7 +106,7 @@ print(AAlist)
    
 #Put everything done above in a generalized function that takes the DNA sequence as an input but assumes the library has been loaded#
 #as three separate strings as above#
-"""
+
 
 def translate(sequence):
     RNAseqCtoG = sequence.replace("c","G") # convert the DNA sequence to its RNA counterpart #
@@ -129,7 +129,8 @@ def translate(sequence):
 #Nested for loop searches each of the lists of codons above and compares them to the#
 #base pair lists provided by location, if all three match up, it returns the Amino Acid#
 #listed in the same row. If not, it keeps looking. The list is then merged into a string#
-#and printed#
+#and printed
+
     for i in range(0,206):
         for j in range(0,64):
             if cod1[i]==Base1[j] and cod2[i]==Base2[j] and cod3[i]==Base3[j]:
