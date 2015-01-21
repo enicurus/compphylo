@@ -29,6 +29,20 @@ RNAseq = RNAseqAtoU.replace("t","A")
 # print the RNA sequence in lower case letters #
 print(RNAseq.lower())
 
+# make a new string with the reverse complement DNA sequence #
+seqrev=seq[::-1]
+
+#print reversed sequence #
+
+print(seqrev)
+
+#extract 13th and 14th codons#
+
+seq1314 = seq[13]+seq[14]
+
+# print 13th and 14th codons #
+
+print(seq1314)
 
 # Amino Acid Translation table from https://github.com/jembrown/CompPhylo_Spr2015/blob/master/VertMitTransTable.txt
 
@@ -86,3 +100,4 @@ for i in range(0,206):
                 
 AAlist=''.join(AA)
 print(AAlist)
+   
