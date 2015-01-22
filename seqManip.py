@@ -147,3 +147,6 @@ def translate(sequence):
     print(AAlist) 
 #see if the function works
 translate(seq)
+
+# BLASTed the sequence to genbank to find the alignment and check translation
+# sequence and independent translation here: http://www.ncbi.nlm.nih.gov/nucleotide/594593097?report=genbank&log$=nuclalign&blast_rank=1&RID=C293HBK7014
