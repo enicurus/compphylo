@@ -118,29 +118,25 @@ print(AAlist)
 
 
    
-def translate(seq3prime):
-    sequence=seq3prime[::-1] # reverse the sequence so it starts with the 5' end
-    RNAseqCtoG = sequence.replace("c","G") # convert the DNA sequence to its RNA counterpart #
-    RNAseqGtoC = RNAseqCtoG.replace("g","C")
-    RNAseqAtoU = RNAseqGtoC.replace("a","T") #uses T instead of U to correspond with dictionary #
-    RNAseq = RNAseqAtoU.replace("t","A")
+def translate(sequence):
+   
     cod1 = [] # make string containing each codon, with the orphan bases left out #
-    for i in range(0,len(RNAseq),3):
-        cod1.append(RNAseq[i]) 
+    for i in range(0,len(sequence),3):
+        cod1.append(sequence[i]) 
     
     cod2 = []
-    for i in range(1,len(RNAseq),3):
-        cod2.append(RNAseq[i]) 
+    for i in range(1,len(sequence),3):
+        cod2.append(sequence[i]) 
     
     cod3 = []
-    for i in range(2,len(RNAseq),3):
-        cod3.append(RNAseq[i]) 
+    for i in range(2,len(sequence),3):
+        cod3.append(sequence[i]) 
     AA=[] # Define a new list #
 
-#Nested for loop searches each of the lists of codons above and compares them to the#
-#base pair lists provided by location, if all three match up, it returns the Amino Acid#
-#listed in the same row. If not, it keeps looking. The list is then merged into a string#
-#and printed#
+    #Nested for loop searches each of the lists of codons above and compares them to the#
+    #base pair lists provided by location, if all three match up, it returns the Amino Acid#
+    #listed in the same row. If not, it keeps looking. The list is then merged into a string#
+    #and printed#
     for i in range(0,206):
         for j in range(0,64):
             if cod1[i]==Base1[j] and cod2[i]==Base2[j] and cod3[i]==Base3[j]:
