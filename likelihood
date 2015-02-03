@@ -36,7 +36,6 @@ functools.reduce(operator.mul, [1,2,3,4,5,6], 1)
 
 
 
- 
 def fact(k,n): 
   out=1
   for i in range(k,n-1,-1):
@@ -57,12 +56,7 @@ def binCoeff(n,k): #calculate the bin coefficient with equation 1.4.13
     
  
     
-  
-def bernoulli(p,n,k): #calculate probability of k successes in n trials with p probability
-	out = binCoeff(n,k)*pow(p,n)*pow((1-p),(n-k))
-	return out
 
-    
 def binomPMF(k,n,p):
     """
     This function returns the probability mass of k successes for a binomial distribution with n trials and a
@@ -70,9 +64,9 @@ def binomPMF(k,n,p):
     """
     return binCoeff(n,k)*pow(p,k)*pow((1-p),(n-k))
 # set up a list with all relevant values of p
-P=range(0,100,5)
+P=range(0,101,5)
 
-P=[int(b)/100 for b in P]
+P=[b/100 for b in P]
     
 
 
@@ -80,14 +74,23 @@ P=[int(b)/100 for b in P]
 # Calculate the likelihood scores for these values of p, in light of the data you've collected
 
 def likelihood(k,n,p):
-   lik= binomPMF(k,n,p)/binCoeff(k,n)
+   lik = binomPMF(k,n,p)
    return lik
 
 likes=[]
  
 for val in P:
-    num=likelihood(4,5,val)
+    num=likelihood(12,20,val)
     likes.append(num)
     
  
+ maxlik = max(likes)
+ 
+ print "the maximum likelihood is" + maxlik
+ 
+ list[likes.index(maxlik)]
+ 
+ ratio=[]
+ for val in likes:
+     ratio.append(val/maxlik)
  
