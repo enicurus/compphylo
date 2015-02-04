@@ -44,19 +44,13 @@ def fact(k,n):
       
    
    
-def factorial(m): #make a function that calculates the factorial for a number to be used in the next function
-    if m ==1:
-        return m
-    else:
-        return m*factorial(m-1)   
+
 
 def binCoeff(n,k): #calculate the bin coefficient with equation 1.4.13
       return fact(n,(n-k+1))/fact(k,1)
  
     
- 
     
-
 def binomPMF(k,n,p):
     """
     This function returns the probability mass of k successes for a binomial distribution with n trials and a
@@ -84,13 +78,120 @@ for val in P:
     likes.append(num)
     
  
- maxlik = max(likes)
+maxlik = max(likes)
  
- print "the maximum likelihood is" + maxlik
+print "the maximum likelihood is" + str(maxlik)
  
- list[likes.index(maxlik)]
+list[likes.index(maxlik)]
  
- ratio=[]
- for val in likes:
+ratio=[]
+for val in likes:
      ratio.append(val/maxlik)
+ 
+
+
+# Write a function that finds the ML value of p for a binomial, given k and n.
+
+
+def MLVal(k,n):
+    diff=0.1
+    pCurr=(scipy.random.random()) #start at a random spot between 0 and 1
+    currLik = likelihood(k,n,pCurr) #calculate the likelihood of the p
+    pVals=[] #set up a list for the p values
+    mlVals=[] # set up a list for the ML values
+    pUp=pCurr+diff 
+    pDown=pCurr-diff
+    upLik = likelihood(k,n,pUp)
+    downLik = likelihood(k,n,pDown)  
+    while upLik>=currLik+0.001 or downLik>+currLik+0.001:
+        pUp=pUp+(diff/2)
+        pDown=pDown-(diff/2)
+        while upLik>currLik or downLik>currLik:
+            if upLik>currLik:  
+                pvals.append(pCurr)
+                MLvals.append(currLik)
+                pCurr=pUp
+                currLik=upLik
+            if downLik>currLik:
+                pvals.append(pCurr)
+                MLvals.append(currLik)
+                pCurr=pDown
+                currLik=downLik          
+        likArray=(pvals,MLvals)
+        maxLik=max(MLvals)
+    for i in range(0,len(MLvals)):
+        if MLvals[i]==maxLik:
+            k=(pvals[i])        
+    return "the best p is ",k," with a likelihood of",maxLik
+            
+MLVal(4,5)
+         
+                
+
+
+
+
+
+
+
+"""
+In the exercise above, you tried to find an intuitive cutoff for likelihood ratio
+scores that would give you a reasonable interval in which to find the true value of 
+p. Now, we will empirically determine one way to construct such an interval. To do 
+so, we will ask how far away from the true value of a parameter the ML estimate 
+might stray. Use this procedure: (1) start with a known value for p, (2) simulate
+a bunch of datasets, (3) find ML parameter estimates for each simulation, and then 
+(4) calculate the likelihood ratios comparing the true parameter values and the ML
+estimates. When you do this, you will be constructing a null distribution of
+likelihood ratios that might be expected if the value of p you picked in (1)
+was true. Note that the ML values for these replicates are very often greater than
+L(true value of P), because the ML value can only ever be >= L(true value). Once 
+you have this distribution, find the likelihood ratio cutoff you need to ensure 
+that the probability of seeing an LR score that big or greater is <= 5%. 
+"""
+
+# Set a starting, true value for p
+
+trueP = 
+
+# Simulate 1,000 datasets of 200 trials from a binomial with this p
+# If you haven't already done so, you'll want to import the binom class from scipy:
+# from scipy.stats import binom
+# binom.rvs(n,p) will then produce a draw from the corresponding binomial.
+
+
+
+# Now find ML parameter estimates for each of these trials
+
+
+
+# Calculate likelihood ratios comparing L(trueP) in the numerator to the maximum
+# likelihood (ML) in the denominator. Sort the results and find the value
+# corresponding to the 95th percentile.
+
+
+
+# Now, convert the likelihood ratios (LRs) to -2ln(LRs) values.
+# Find the 95th percentile of these values. Compare these values to this table:
+# https://people.richland.edu/james/lecture/m170/tbl-chi.html. In particular, look
+# at the 0.05 column. Do any of these values seem similar to the one you calculated?
+# Any idea why that particular cell would be meaningful?
+
+
+
+# Based on your results (and the values in the table), what LR statistic value 
+# [-2ln(LR)] indicates that a null value of p is far enough away from the ML value
+# that an LR of that size is <=5% probable if that value of p was true?
+
+
+
+# Using this cutoff, what interval might you report for the 5- and 20-trial data
+# sets above?
+
+
+
+# We've talked in previous classes about two ways to interpret probabilities. Which
+# interpretation are we using here to define these intervals?
+
+ 
  
