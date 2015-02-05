@@ -92,28 +92,24 @@ for val in likes:
 
 # Write a function that finds the ML value of p for a binomial, given k and n.
 
-
 def MLVal(k,n):
     diff=0.1
-    pCurr=(scipy.random.random()) #start at a random spot between 0 and 1
-    currLik = likelihood(n,k,pCurr) #calculate the likelihood of the p
+    pCurr=(0.5) #start at a random spot between 0 and 1
+    currLik = likelihood(k,n,pCurr) #calculate the likelihood of the p
     pVals=[] #set up a list for the p values
     MLVals=[] # set up a list for the ML values
-    pUp=pCurr+diff 
-    pDown=pCurr-diff
-    upLik = likelihood(k,n,pUp)
-    downLik = likelihood(k,n,pDown)  
-    while upLik>=currLik+0.001 or downLik>=currLik+0.001:
-        pUp=pCurr+(diff/2)
-        pDown=pCurr-(diff/2)
-        while upLik>currLik:
-            pVals.append(pCurr)
-            MLVals.append(currLik)
-            pCurr=pUp   
-        while downLik>currLik:
-            pvals.append(pCurr)
-            MLVals.append(currLik)
-            pCurr=pDown             
+    upLik = likelihood(k,n,(pCurr+diff))
+    downLik = likelihood(k,n,(pCurr-diff)) 
+    while upLik>currLik:
+        currLik=likelihood(k,n,pCurr+diff)
+        pCurr=pCurr+0.1
+    pVals.append(pCurr)
+    MLVals.append(currLik)
+    while downLik>currLik:
+        currLik=likelihood(k,n,pCurr=diff)
+        pCurr=pCurr-0.1   
+    pVals.append(pCurr)
+    MLVals.append(currLik)
     likArray=(pVals,MLVals)
     maxLik=max(MLVals)
     for i in range(0,len(MLVals)):
@@ -121,7 +117,7 @@ def MLVal(k,n):
             k=(pVals[i])        
     return "the best p is ",k," with a likelihood of",maxLik
             
-MLVal(4,5)
+MLVal(4,6)
 
 
 
