@@ -92,8 +92,9 @@ for val in likes:
 
 # Write a function that finds the ML value of p for a binomial, given k and n.
 
+
 def MLVal(k,n):
-    diff=0.1
+    diff=0.001
     pCurr=0.5 #start at a random spot between 0 and 1
     currLik = likelihood(k,n,pCurr) #calculate the likelihood of the p
     pVals=[] #set up a list for the p values
@@ -102,12 +103,12 @@ def MLVal(k,n):
     downLik = likelihood(k,n,(pCurr-diff)) 
     while upLik>currLik:
         currLik=likelihood(k,n,pCurr+diff)
-        pCurr=pCurr+0.1
+        pCurr=pCurr+diff
     pVals.append(pCurr)
     MLVals.append(currLik)
     while downLik>currLik:
         currLik=likelihood(k,n,pCurr-diff)
-        pCurr=pCurr-0.1   
+        pCurr=pCurr-diff  
     pVals.append(pCurr)
     MLVals.append(currLik)
     likArray=(pVals,MLVals)
@@ -117,7 +118,7 @@ def MLVal(k,n):
             k=(pVals[i])        
     return "the best p is ",k," with a likelihood of",maxLik
             
-MLVal(1,300)
+MLVal(4,5)
 
 
 
