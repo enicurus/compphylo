@@ -153,20 +153,22 @@ trueP = 0.8
 
 from scipy.stats import binom
 
-sets=[]
-for i in range (1,1000):
-    set=binom.rvs(200,0.5)
-    sets.append(set)
+from scipy.stats import binom
+
+set=[]
+for i in range (1,1001):
+    s=binom.rvs(200,0.5)
+    set.append(s)
     
     
 # Now find ML parameter estimates for each of these trials
     
-MLtrials=[]
-for i in range(1,1000):
-    v=MLVal(sets[i],200)
-    MLtrials.append(v)
-    
-MLVal(89,200)    
+
+def MLPar(set):
+    MLtrials=[]
+    for i in range(1,len(set)):
+    MLtrials.append(MLVal(sets[i],200)
+    return MLtrials    
 
 # Calculate likelihood ratios comparing L(trueP) in the numerator to the maximum
 # likelihood (ML) in the denominator. Sort the results and find the value
