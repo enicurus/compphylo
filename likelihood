@@ -33,12 +33,12 @@ import matplotlib.pyplot as plt
 import functools
 import operator
 functools.reduce(operator.mul, [1,2,3,4,5,6], 1)
+import scipy
 
 
-
-def fact(k,n): 
+def fact(n,k): 
   out=1
-  for i in range(k,n-1,-1):
+  for i in range(n,k-1,-1):
       out=out*i
   return out
       
@@ -94,34 +94,31 @@ for val in likes:
 
 
 def MLVal(k,n):
-    diff=0.001
-    pCurr=0.5 #start at a random spot between 0 and 1
+    diff=0.1
+    pCurr=scipy.random.random() #start at a random spot between 0 and 1
     currLik = likelihood(k,n,pCurr) #calculate the likelihood of the p
     pVals=[] #set up a list for the p values
     MLVals=[] # set up a list for the ML values
     upLik = likelihood(k,n,(pCurr+diff))
     downLik = likelihood(k,n,(pCurr-diff)) 
-    while upLik>currLik:
-        currLik=likelihood(k,n,pCurr+diff)
-        pCurr=pCurr+diff
-    pVals.append(pCurr)
-    MLVals.append(currLik)
-    while downLik>currLik:
-        currLik=likelihood(k,n,pCurr-diff)
-        pCurr=pCurr-diff  
-    pVals.append(pCurr)
-    MLVals.append(currLik)
-    likArray=(pVals,MLVals)
-    maxLik=max(MLVals)
-    for i in range(0,len(MLVals)):
-        if MLVals[i]==maxLik:
-            k=(pVals[i])        
-    return "the best p is ",k," with a likelihood of",maxLik
+    while diff>0.001:
+        if  upLik>currLik:
+            pCurr=pCurr+diff
+            currLik=likelihood(k,n,pCurr)
+            pVals.append(pCurr)
+            MLVals.append(currLik)
+
+        elif downLik>currLik:
+             pCurr=pCurr-diff
+             currLik=likelihood(k,n,pCurr)
+             pVals.append(pCurr)
+             MLVals.append(currLik)
+        else:
+            diff*=0.5
+  
+    return pCurr
             
 MLVal(4,5)
-
-
-
 
 
 
@@ -145,18 +142,31 @@ that the probability of seeing an LR score that big or greater is <= 5%.
 
 # Set a starting, true value for p
 
-trueP = 
+trueP = 0.8
+
+
 
 # Simulate 1,000 datasets of 200 trials from a binomial with this p
 # If you haven't already done so, you'll want to import the binom class from scipy:
 # from scipy.stats import binom
 # binom.rvs(n,p) will then produce a draw from the corresponding binomial.
 
+from scipy.stats import binom
 
-
+sets=[]
+for i in range (1,1000):
+    set=binom.rvs(200,0.5)
+    sets.append(set)
+    
+    
 # Now find ML parameter estimates for each of these trials
-
-
+    
+MLtrials=[]
+for i in range(1,1000):
+    v=MLVal(sets[i],200)
+    MLtrials.append(v)
+    
+MLVal(89,200)    
 
 # Calculate likelihood ratios comparing L(trueP) in the numerator to the maximum
 # likelihood (ML) in the denominator. Sort the results and find the value
@@ -185,6 +195,8 @@ trueP =
 
 # We've talked in previous classes about two ways to interpret probabilities. Which
 # interpretation are we using here to define these intervals?
+
+ 
 
  
  
