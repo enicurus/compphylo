@@ -96,37 +96,32 @@ for val in likes:
 def MLVal(k,n):
     diff=0.1
     pCurr=(scipy.random.random()) #start at a random spot between 0 and 1
-    currLik = likelihood(k,n,pCurr) #calculate the likelihood of the p
+    currLik = likelihood(n,k,pCurr) #calculate the likelihood of the p
     pVals=[] #set up a list for the p values
-    mlVals=[] # set up a list for the ML values
+    MLVals=[] # set up a list for the ML values
     pUp=pCurr+diff 
     pDown=pCurr-diff
     upLik = likelihood(k,n,pUp)
     downLik = likelihood(k,n,pDown)  
-    while upLik>=currLik+0.001 or downLik>+currLik+0.001:
-        pUp=pUp+(diff/2)
-        pDown=pDown-(diff/2)
-        while upLik>currLik or downLik>currLik:
-            if upLik>currLik:  
-                pvals.append(pCurr)
-                MLvals.append(currLik)
-                pCurr=pUp
-                currLik=upLik
-            if downLik>currLik:
-                pvals.append(pCurr)
-                MLvals.append(currLik)
-                pCurr=pDown
-                currLik=downLik          
-        likArray=(pvals,MLvals)
-        maxLik=max(MLvals)
-    for i in range(0,len(MLvals)):
-        if MLvals[i]==maxLik:
-            k=(pvals[i])        
+    while upLik>=currLik+0.001 or downLik>=currLik+0.001:
+        pUp=pCurr+(diff/2)
+        pDown=pCurr-(diff/2)
+        while upLik>currLik:
+            pVals.append(pCurr)
+            MLVals.append(currLik)
+            pCurr=pUp   
+        while downLik>currLik:
+            pvals.append(pCurr)
+            MLVals.append(currLik)
+            pCurr=pDown             
+    likArray=(pVals,MLVals)
+    maxLik=max(MLVals)
+    for i in range(0,len(MLVals)):
+        if MLVals[i]==maxLik:
+            k=(pVals[i])        
     return "the best p is ",k," with a likelihood of",maxLik
             
 MLVal(4,5)
-         
-                
 
 
 
