@@ -94,7 +94,7 @@ for val in likes:
 
 def MLVal(k,n):
     diff=0.1
-    pCurr=(0.5) #start at a random spot between 0 and 1
+    pCurr=0.5 #start at a random spot between 0 and 1
     currLik = likelihood(k,n,pCurr) #calculate the likelihood of the p
     pVals=[] #set up a list for the p values
     MLVals=[] # set up a list for the ML values
@@ -106,7 +106,7 @@ def MLVal(k,n):
     pVals.append(pCurr)
     MLVals.append(currLik)
     while downLik>currLik:
-        currLik=likelihood(k,n,pCurr=diff)
+        currLik=likelihood(k,n,pCurr-diff)
         pCurr=pCurr-0.1   
     pVals.append(pCurr)
     MLVals.append(currLik)
@@ -117,7 +117,8 @@ def MLVal(k,n):
             k=(pVals[i])        
     return "the best p is ",k," with a likelihood of",maxLik
             
-MLVal(4,6)
+MLVal(1,300)
+
 
 
 
