@@ -75,3 +75,41 @@ def markovChain(matrix,length):
 mc=markovChain(Matrix,10)
 
 print mc
+
+
+
+# Now try running 100 simulations of 100 steps each. How often does the chain
+# end in each state? How does this change as you change the transition matrix?
+
+def multiMC(chains,Matrix,length):
+    chainmatrix=[]
+    while chains>1:
+        for ch in range(chains):
+            ch=markovChain(Matrix,length)
+            chainMatrix.append(ch)
+            chains=chains-1
+    return chainMatrix       
+    
+
+chainMatrix=multiMC(100,Matrix,100)
+
+
+ch=chainMatrix[0][0]
+ch.count("A")
+def counter(matrix,state):
+    out=0
+    for i in range(100):
+         for j in range(100):
+            ch=chainMatrix[i][j]
+            ch.count(state)
+            out=out+state
+    
+
+# Try defining a state space for nucleotides: A, C, G, and T. Now define a 
+# transition matrix with equal probabilities of change between states.
+
+
+
+         
+# Again, run 100 simulations of 100 steps and look at the ending states. Then
+# try changing the transition matrix.
