@@ -82,13 +82,15 @@ print mc
 # end in each state? How does this change as you change the transition matrix?
 
 def multiMC(chains,Matrix,length):
-    chainmatrix=[]
-    while chains>1:
-        for ch in range(chains):
+    chainMatrix=[]
+    if chains==1:
+        chainMatrix=markovChain(Matrix,length)
+    else:    
+        while chains>0:
             ch=markovChain(Matrix,length)
             chainMatrix.append(ch)
             chains=chains-1
-    return chainMatrix       
+        return chainMatrix       
     
 
 chainMatrix=multiMC(100,Matrix,100)
@@ -101,10 +103,21 @@ def counter(matrix,state):
     for i in range(100):
          for j in range(100):
             ch=chainMatrix[i][j]
-            ch.count(state)
-            out=out+state
+            statecount=ch.count(state)
+            out=out+statecount
+    return out
     
+def printstates(chain,matrix):
+    print "the Chain is in state A "+str(counter(chain,"A"))+" times with the matrix"+str(matrix) 
+    print "the Chain is in state B "+str(counter(chain,"B"))+" times with the matrix"+str(matrix) 
 
+printstates(chainMatrix)
+
+Matrix1=[[0.1,0.9],[0.9,0.1]]
+
+chainMatrix1=multiMC(100,Matrix1,100)
+printstates(chainMatrix1,Matrix1)
+#this is returning the same count when I change the matrix for some reason
 # Try defining a state space for nucleotides: A, C, G, and T. Now define a 
 # transition matrix with equal probabilities of change between states.
 
