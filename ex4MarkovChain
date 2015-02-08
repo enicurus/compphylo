@@ -39,7 +39,7 @@ def markovChain(matrix,length):
     chain=[]
     seed=scipy.random.random(1)
     states=("A","B")
-    if seed<-matrix[0][0]:
+    if seed<matrix[0][0]:
         state=states[0]
     else: 
         state=states[1]
@@ -109,8 +109,7 @@ def counter(matrix,state):
     return out
     
 def printstates(chain,matrix):
-    print "the Chain is in state A "+str(counter(chain,"A"))+" times with the matrix"+str(matrix) 
-    print "the Chain is in state B "+str(counter(chain,"B"))+" times with the matrix"+str(matrix) 
+    print " A = "+str(counter(chain,"A"))+"  B = "+str(counter(chain,"B"))+"  matrix = "+str(matrix) 
 
 printstates(chainMatrix,Matrix)
 
