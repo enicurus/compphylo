@@ -39,7 +39,7 @@ def markovChain(matrix,length):
     chain=[]
     seed=scipy.random.random(1)
     states=("A","B")
-    if seed>0.5:
+    if seed<-matrix[0][0]:
         state=states[0]
     else: 
         state=states[1]
@@ -47,19 +47,20 @@ def markovChain(matrix,length):
     if length ==1:
         return chain
     else:
-        for trans in markovChain(matrix,(length-1)):
-            seed=scipy.random.random(1)
+        for state in markovChain(matrix,(length-1)):
             if state=="A":
-                if seed<Matrix[0][0]:
-                    trans=="A"
+                seed=scipy.random.random(1)
+                if seed<=matrix[0][0]:
+                    state=="A"
                 else:
-                    trans=="B"
+                    state=="B"
             elif state=="B":
-                if seed<Matrix[1][1]:
-                    trans=="B"
+                seed=scipy.random.random(1)
+                if seed<=matrix[1][1]:
+                    state=="B"
                 else:
-                    trans=="A"
-            chain.append(trans)     
+                    state=="A"
+            chain.append(state)     
         return chain
    
                 
@@ -81,16 +82,16 @@ print mc
 # Now try running 100 simulations of 100 steps each. How often does the chain
 # end in each state? How does this change as you change the transition matrix?
 
-def multiMC(chains,Matrix,length):
+def multiMC(chains,matrix,length):
     chainMatrix=[]
     if chains==1:
-        chainMatrix=markovChain(Matrix,length)
+        chainMatrix=markovChain(matrix,length)
     else:    
         while chains>0:
-            ch=markovChain(Matrix,length)
+            ch=markovChain(matrix,length)
             chainMatrix.append(ch)
             chains=chains-1
-        return chainMatrix       
+    return chainMatrix       
     
 
 chainMatrix=multiMC(100,Matrix,100)
@@ -102,7 +103,7 @@ def counter(matrix,state):
     out=0
     for i in range(100):
          for j in range(100):
-            ch=chainMatrix[i][j]
+            ch=matrix[i][j]
             statecount=ch.count(state)
             out=out+statecount
     return out
@@ -111,12 +112,19 @@ def printstates(chain,matrix):
     print "the Chain is in state A "+str(counter(chain,"A"))+" times with the matrix"+str(matrix) 
     print "the Chain is in state B "+str(counter(chain,"B"))+" times with the matrix"+str(matrix) 
 
-printstates(chainMatrix)
+printstates(chainMatrix,Matrix)
 
 Matrix1=[[0.1,0.9],[0.9,0.1]]
 
 chainMatrix1=multiMC(100,Matrix1,100)
 printstates(chainMatrix1,Matrix1)
+
+Matrix2=[[1,0],[1,0]]
+
+chainMatrix2=multiMC(100,Matrix2,100)
+printstates(chainMatrix2,Matrix2)
+
+
 #this is returning the same count when I change the matrix for some reason
 # Try defining a state space for nucleotides: A, C, G, and T. Now define a 
 # transition matrix with equal probabilities of change between states.
