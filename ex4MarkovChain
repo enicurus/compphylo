@@ -1,0 +1,77 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Sun Feb  8 11:36:23 2015
+
+@author: ryanterrill
+"""
+
+# Create a tuple that contains the names of the chain's states
+
+States=("A","B")
+
+# Define a transition probability matrix for the chain with states A and B
+
+Matrix=[[0.4,0.6],[0.7,0.3]]
+
+# Try accessing a individual element or an individual row 
+# Element
+
+Matrix[0][1]
+
+# Row
+Matrix[1]
+
+
+# Import scipy U(0,1) random number generator
+
+import scipy
+
+# Paste or import your discrete sampling function
+
+rand=scipy.random.random()
+
+# Write your Markov chain simulator below. Record the states of your chain in 
+# a list. Draw a random state to initiate the chain.
+
+
+
+def markovChain(matrix,length):
+    chain=[]
+    seed=scipy.random.random(1)
+    states=("A","B")
+    if seed>0.5:
+        state=states[0]
+    else: 
+        state=states[1]
+    chain.append(state)
+    if length ==1:
+        return chain
+    else:
+        for trans in markovChain(matrix,(length-1)):
+            seed=scipy.random.random(1)
+            if state=="A":
+                if seed<Matrix[0][0]:
+                    trans=="A"
+                else:
+                    trans=="B"
+            elif state=="B":
+                if seed<Matrix[1][1]:
+                    trans=="B"
+                else:
+                    trans=="A"
+            chain.append(trans)     
+        return chain
+   
+                
+        
+    
+
+
+
+
+
+# Run a simulation of 10 steps and print the output.
+
+mc=markovChain(Matrix,10)
+
+print mc
