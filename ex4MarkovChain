@@ -141,6 +141,20 @@ nucMatrix=[[0.25,0.25,0.25,0.25],[0.25,0.25,0.25,0.25],[0.25,0.25,0.25,0.25],[0.
 
 def nucMarkovChain(matrix,length):
     def chooser(row,matrix,nucs): #chooses a nucleotide to start with based on the matrix#
+        def nucLine(row,nucs): #make a row of nucleotide transitions that line up with the transition matrix
+            nucLine=[]
+            for i in range(4):
+                row=row
+                g=nucs[row]
+                f=nucs[i]
+                nucLine.append((g,f))
+            return nucLine   
+        def nucleotideMatrix(nucs): #iterate the lines into a matrix that corresponds with the additive p matrix
+            nucMatrix=[]
+            for i in range(4):
+                nucMatrix.append(nucLine(i,nucs))
+            return nucMatrix  
+        nucleotideMatrix=nucleotideMatrix(nucs)        
         def changeLine(matrix):  #makes a line of additive p's from the matrix
             changeMatrix=[] 
             for i in range(0,4):
@@ -166,29 +180,15 @@ def nucMarkovChain(matrix,length):
         row=row
         seed=scipy.random.random(1)
         if seed<=changeMatrix[row][0]:
-            nucleotide=nucs[0]
+            nucleotide=nucleotideMatrix[row][0][1]
         elif seed<=changeMatrix[row][1]:
-            nucleotide=nucs[1]  
+            nucleotide=nucleotideMatrix[row][1][1]  
         elif seed<=changeMatrix[row][2]:
-            nucleotide=nucs[2] 
+            nucleotide=nucleotideMatrix[row][2][1] 
         elif seed<=changeMatrix[row][3]:
-            nucleotide=nucs[3]     
+            nucleotide=nucleotideMatrix[row][3][1]     
         return nucleotide 
     nucs=("A","C","G","T")     #make a list of nucleotides since they won't change no need for user input
-    def nucLine(row,nucs): #make a row of nucleotide transitions that line up with the transition matrix
-        nucLine=[]
-        for i in range(4):
-            row=row
-            g=nucs[row]
-            f=nucs[i]
-            nucLine.append((g,f))
-        return nucLine   
-    def nucleotideMatrix(nucs): #iterate the lines into a matrix that corresponds with the additive p matrix
-        nucMatrix=[]
-        for i in range(4):
-            nucMatrix.append(nucLine(i,nucs))
-        return nucMatrix  
-    nucleotideMatrix=nucleotideMatrix(nucs) #make the matrix
     nucleotide=chooser(0,matrix,nucs) #seed the Markov chain with the first nucleotide  
     start=chooser(0,matrix,nucs)
     chain=[start]
