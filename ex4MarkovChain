@@ -218,20 +218,20 @@ def multiNucMC(chains,matrix,length):
         nucChainMatrix=nucMarkovChain(matrix,length)
     else:    
         while chains>=1: 
-            ch=nucMarkovChain(matrix,length) # 
+            ch=nucMarkovChain(matrix,length) # recursive function add a new Markov Chain to the list of Chains for given length of lists
             nucChainMatrix.append(ch)
             chains=chains-1
     return nucChainMatrix  
 
-hundredMatChain=multiNucMC(100,nucMatrix2,100)
+hundredMatChain=multiNucMC(100,nucMatrix2,100) #check to see if it worked
 
 
     
-def countAllNucs(chain):
-    def countNuc(nucleotide,chain):
+def countAllNucs(chain): #function counts the nucleotides in a list of chains
+    def countNuc(nucleotide,chain): #function to count nucleotides in a chain
         out=chain.count(nucleotide)
         return out
-    def sums(chain):
+    def sums(chain): #fucntion to sum all the counts by nucleotide
         out=[]
         nucs=["A","C","G","T"]
         add=[]
@@ -241,14 +241,14 @@ def countAllNucs(chain):
              spot=countNuc(nucs[i],chain[j])
              out.append((spot,nucs[i]))
         return (out)
-    sums=sums(chain)
-    def nucLine(matrix):  #makes a line of additive p's from the matrix
+    sums=sums(chain) #gives all the sums by nucleotide but seperately by chain
+    def nucLine(matrix):  #mfunction to add upp all the occurences by nucleotide
         nucs=["A","C","G","T"]
         for j in nucs:
             final=[]
             out=[]
             change=[] 
-            for i in range(0,100):
+            for i in range(0,100): #pretty clunky but it works. just adds up the occurences in blocks of 100 - assuming the list has 100 chains - and labels it by nucleotide
                 if i==0:
                     change=matrix[i][0]
                 else:    
@@ -293,3 +293,4 @@ countAllNucs(hundredMatChain1)
 nucMatrix2=[[0.7,0.1,0.1,0.1],[0.7,0.1,0.1,0.1],[0.7,0.1,0.1,0.1],[0.7,0.1,0.1,0.1]]
 hundredMatChain2=multiNucMC(100,nucMatrix2,100)
 countAllNucs(hundredMatChain2) 
+
