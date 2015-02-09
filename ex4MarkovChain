@@ -197,7 +197,7 @@ def nucMarkovChain(matrix,length): #makes one markov chain with input length fro
         return chain
     else: #chose a row from the transition matrix based on where the chain was last
         for nucleotide in nucMarkovChain(matrix,(length-1)):       #recursive function adds a new nucleotide to the chain for the given length     
-            if nucleotide=="A":
+            if nucleotide=="A": #tell the chain to check the matrices by row correspinding to previous state
                 row=0
             elif nucleotide=="C":
                 row=1
@@ -214,11 +214,11 @@ hundredChain=nucMarkovChain(nucMatrix,100)       ### it wooorkks!!!###
 
 def multiNucMC(chains,matrix,length):
     nucChainMatrix=[]
-    if chains==1:
+    if chains==1: #stops the function when there is one last chain
         nucChainMatrix=nucMarkovChain(matrix,length)
     else:    
-        while chains>0:
-            ch=nucMarkovChain(matrix,length)
+        while chains>=1: 
+            ch=nucMarkovChain(matrix,length) # 
             nucChainMatrix.append(ch)
             chains=chains-1
     return nucChainMatrix  
