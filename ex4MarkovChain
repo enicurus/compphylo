@@ -130,92 +130,18 @@ printstates(chainMatrix2,Matrix2)
 
 nucs=["A","C","G","T"]
 nucMatrix=[[0.25,0.25,0.25,0.25],[0.25,0.25,0.25,0.25],[0.25,0.25,0.25,0.25],[0.25,0.25,0.25,0.25]]
-
-nucTrans=[[a+b,a+b,a+b,a+b] for a in nucs for b in nucs]    
-
-def nucLine(row,nucs):
-    nucLine=[]
-    for i in range(4):
-        row=row
-        g=nucs[row]
-        f=nucs[i]
-        nucLine.append((g,f))
-    return nucLine   
-    
-def nucMatrix(nucs):
-    nucMatrix=[]
-    for i in range(4):
-        nucMatrix.append(nucLine(i,nucs))
-    return nucMatrix    
+ 
 # Again, run 100 simulations of 100 steps and look at the ending states. Then
 # try changing the transition matrix.
 
  
-def changeLine(matrix): 
-    changeMatrix=[] 
-    for i in range(0,4):
-        if i==0:
-            change=matrix[0][0]
-        else:    
-            change+=matrix[0][i-1]
-        changeMatrix.append(change)
-    return changeMatrix   
 
-def changeMat(matrix):
-    nrow=4
-    changeMatrix=[]
-    if nrow==0:
-        changeLine(matrix)
-    else:
-        while nrow>0:
-            x=changeLine(matrix)
-            changeMatrix.append(x)
-            nrow=nrow-1
-    return changeMatrix        
-    
-            
         
-def chooser(row,matrix,nucs):
-    def changeLine(matrix): 
-        changeMatrix=[] 
-        for i in range(0,4):
-            if i==0:
-                change=matrix[0][0]
-            else:    
-                change+=matrix[0][i-1]
-            changeMatrix.append(change)
-        return changeMatrix   
-    def changeMat(matrix):
-        nrow=4
-        changeMatrix=[]
-        if nrow==0:
-            changeLine(matrix)
-        else:
-            while nrow>0:
-                x=changeLine(matrix)
-                changeMatrix.append(x)
-                nrow=nrow-1
-        return changeMatrix  
-    changeMatrix=changeMat(nucMatrix)    
-    nucleotide=""
-    row=row
-    seed=scipy.random.random(1)
-    if seed<=changeMatrix[row][0]:
-        nucleotide=nucs[0]
-    elif seed<=changeMatrix[row][1]:
-        nucleotide=nucs[1]  
-    elif seed<=changeMatrix[row][2]:
-        nucleotide=nucs[2] 
-    elif seed<=changeMatrix[row][3]:
-        nucleotide=nucs[3]     
-    return nucleotide 
- 
-        
-chooser(0,nucMatrix,nucs)        
+     
 
 def nucMarkovChain(matrix,length):
-    def chooser(row,matrix,nucs):
-        def changeLine(matrix): 
+    def chooser(row,matrix,nucs): #chooses a nucleotide to start with based on the matrix#
+        def changeLine(matrix):  #makes a line of additive p's from the matrix
             changeMatrix=[] 
             for i in range(0,4):
                 if i==0:
@@ -224,7 +150,7 @@ def nucMarkovChain(matrix,length):
                     change+=matrix[0][i-1]
                 changeMatrix.append(change)
             return changeMatrix   
-        def changeMat(matrix):
+        def changeMat(matrix): # makes a matrix of additive p's from the matrix
             nrow=4
             changeMatrix=[]
             if nrow==0:
@@ -235,7 +161,7 @@ def nucMarkovChain(matrix,length):
                     changeMatrix.append(x)
                     nrow=nrow-1
             return changeMatrix  
-        changeMatrix=changeMat(nucMatrix)    
+        changeMatrix=changeMat(nucMatrix)    #ake the matrix of additive p's
         nucleotide=""
         row=row
         seed=scipy.random.random(1)
@@ -248,7 +174,7 @@ def nucMarkovChain(matrix,length):
         elif seed<=changeMatrix[row][3]:
             nucleotide=nucs[3]     
         return nucleotide 
-    nucs=("A","C","G","T")     
+    nucs=("A","C","G","T")     #make a list of nucleotides since they won't change no need for user input
     def nucLine(row,nucs): #make a row of nucleotide transitions that line up with the transition matrix
         nucLine=[]
         for i in range(4):
@@ -257,7 +183,7 @@ def nucMarkovChain(matrix,length):
             f=nucs[i]
             nucLine.append((g,f))
         return nucLine   
-    def nucleotideMatrix(nucs): #iterate the lines into a matrix
+    def nucleotideMatrix(nucs): #iterate the lines into a matrix that corresponds with the additive p matrix
         nucMatrix=[]
         for i in range(4):
             nucMatrix.append(nucLine(i,nucs))
@@ -269,7 +195,7 @@ def nucMarkovChain(matrix,length):
     seed=scipy.random.random(1)
     if length==1:
         return chain
-    else:
+    else: #chose a row from the transition matrix based on where the chain was last
         if nucleotide=="A":
             row=0
         elif nucleotide=="C":
@@ -279,9 +205,9 @@ def nucMarkovChain(matrix,length):
         elif nucleotide=="T":
             row=3
         for state in markovChain(matrix,(length-1)):
-            nucleotide=chooser(row,matrix,nucs)
+            nucleotide=chooser(row,matrix,nucs) #then reference the matrix to decide where to go next
             chain.append(nucleotide)   
         return chain
         
         
-nucMarkovChain(nucMatrix,30)  
+nucMarkovChain(nucMatrix,30)       ### it wooorkks!!!### 
