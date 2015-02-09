@@ -210,4 +210,86 @@ def nucMarkovChain(matrix,length):
         return chain
         
         
-nucMarkovChain(nucMatrix,30)       ### it wooorkks!!!### 
+hundredChain=nucMarkovChain(nucMatrix,100)       ### it wooorkks!!!### 
+
+def multiNucMC(chains,matrix,length):
+    nucChainMatrix=[]
+    if chains==1:
+        nucChainMatrix=nucMarkovChain(matrix,length)
+    else:    
+        while chains>0:
+            ch=nucMarkovChain(matrix,length)
+            nucChainMatrix.append(ch)
+            chains=chains-1
+    return nucChainMatrix  
+
+hundredMatChain=multiNucMC(100,nucMatrix,100)
+
+
+    
+def countAllNucs(chain):
+    def countNuc(nucleotide,chain):
+        out=chain.count(nucleotide)
+        return out
+    def sums(chain):
+        out=[]
+        nucs=["A","C","G","T"]
+        add=[]
+        addout=[]
+        for i in range(4):
+            for j in range(len(chain)):
+             spot=countNuc(nucs[i],chain[j])
+             out.append((spot,nucs[i]))
+        return (out)
+    sums=sums(chain)
+    def nucLine(matrix):  #makes a line of additive p's from the matrix
+        nucs=["A","C","G","T"]
+        for j in nucs:
+            final=[]
+            out=[]
+            change=[] 
+            for i in range(0,100):
+                if i==0:
+                    change=matrix[i][0]
+                else:    
+                    change+=matrix[i-1][0]
+                out.append((change,matrix[0][1]))
+            final.append(out[99])
+            for i in range(100,200):
+                if i==0:
+                    change=matrix[i][0]
+                else:    
+                    change+=matrix[i-1][0]
+                out.append((change,matrix[0][1]))
+            final.append(out[199])
+            for i in range(200,300):
+                if i==0:
+                    change=matrix[i][0]
+                else:    
+                    change+=matrix[i-1][0]
+                out.append((change,matrix[0][1]))
+            final.append(out[299])
+            for i in range(300,400):
+                if i==0:
+                    change=matrix[i][0]
+                else:    
+                    change+=matrix[i-1][0]
+                out.append((change,matrix[0][1]))
+            final.append(out[399])
+        return final
+    finout=nucLine(sums)        
+    return finout
+
+        
+        
+hundredMatChain=multiNucMC(100,nucMatrix,100)
+countAllNucs(hundredMatChain)   
+ 
+nucMatrix1=[[0.1,0.2,0.3,0.4],[0.1,0.2,0.3,0.4],[0.1,0.2,0.23,0.4],[0.1,0.2,0.3,0.4]]
+
+hundredMatChain1=multiNucMC(100,nucMatrix1,100)
+countAllNucs(hundredMatChain1) 
+
+nucMatrix2=[[0.7,0.1,0.1,0.1],[0.7,0.1,0.1,0.1],[0.7,0.1,0.1,0.1],[0.7,0.1,0.1,0.1]]
+hundredMatChain2=multiNucMC(100,nucMatrix2,100)
+countAllNucs(hundredMatChain2) 
