@@ -124,12 +124,100 @@ chainMatrix2=multiMC(100,Matrix2,100)
 printstates(chainMatrix2,Matrix2)
 
 
-#this is returning the same count when I change the matrix for some reason
+
 # Try defining a state space for nucleotides: A, C, G, and T. Now define a 
 # transition matrix with equal probabilities of change between states.
 
+nucs=["A","C","G","T"]
+nucMatrix=[[0.25,0.25,0.25,0.25],[0.25,0.25,0.25,0.25],[0.25,0.25,0.25,0.25],[0.25,0.25,0.25,0.25]]
 
-
-         
+nucTrans=[(a,b) for a in nucs for b in nucs]       
 # Again, run 100 simulations of 100 steps and look at the ending states. Then
 # try changing the transition matrix.
+
+ 
+def changeLine(matrix): 
+    changeMatrix=[] 
+    for i in range(0,4):
+        if i==0:
+            change=matrix[0][0]
+        else:    
+            change+=matrix[0][i-1]
+        changeMatrix.append(change)
+    return changeMatrix   
+
+def changeMat(matrix):
+    nrow=4
+    changeMatrix=[]
+    if nrow==0:
+        changeLine(matrix)
+    else:
+        while nrow>0:
+            x=changeLine(matrix)
+            changeMatrix.append(x)
+            nrow=nrow-1
+    return changeMatrix        
+    
+            
+        
+def chooser(matrix,nucs):
+    nucleotide=""
+    seed=scipy.random.random(1)
+    spot=0
+    if seed<=matrix[0][0]:
+        nucleotide=nucs[spot]
+    else:
+        while seed<matrix:
+            seed=seed+matrix[0][spot]
+            spot=spot+1
+            if seed<=matrix[0][spot]+matrix[0][spot-1]:
+                spot=spot+1
+                nucleotide=nucs[spot]
+    return nucleotide 
+
+def nucMarkovChain(matrix,length):
+    nucTrans=[(a,b) for a in nucs for b in nucs]  
+    chain=[]
+    seed=scipy.random.random(1)
+    nucs=("A","C","G","T")
+    spot=0
+    state=""
+    def chooser():
+        state=""
+        seed=scipy.random.random(1)
+        if seed<0.25:
+            state=nucs[spot]
+        else:
+            for spot in chooser(spot+matrix[spot]):
+                state=nucs[spot]
+                spot=spot+int(matrix[spot])
+        return state 
+    state=chooser()  
+    return state
+               
+        
+    elif seed <0.5:
+        state=nucs[1]
+    elif seed<0.75:
+        state=nucs[2]
+    elif seed<1:
+        state=nucs[3]
+    chain.append(state)
+    if length ==1:
+        return chain
+    else:
+        for state in markovChain(matrix,(length-1)):
+            if state=="A":
+                seed=scipy.random.random(1)
+                if seed<=matrix[0][0]:
+                    state=="A"
+                else:
+                    state=="B"
+            elif state=="B":
+                seed=scipy.random.random(1)
+                if seed<=matrix[1][1]:
+                    state=="B"
+                else:
+                    state=="A"
+            chain.append(state)     
+        return chain
