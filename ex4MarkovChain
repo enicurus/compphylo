@@ -36,19 +36,19 @@ rand=scipy.random.random()
 
 
 def markovChain(matrix,length):
-    chain=[]
-    seed=scipy.random.random(1)
+    chain=[] #make an emtpy list
+    seed=scipy.random.random(1) #generate a random number
     states=("A","B")
-    if seed<matrix[0][0]:
+    if seed<matrix[0][0]: #this generates the first state of the chain
         state=states[0]
     else: 
         state=states[1]
     chain.append(state)
     if length ==1:
-        return chain
+        return chain #this returns the chain once the recursive function finishes
     else:
-        for state in markovChain(matrix,(length-1)):
-            if state=="A":
+        for state in markovChain(matrix,(length-1)): #recursive function addid a state to the chain for predefined length
+            if state=="A": #check the previous state then reference the p value to changew or stay the same
                 seed=scipy.random.random(1)
                 if seed<=matrix[0][0]:
                     state=="A"
@@ -139,7 +139,7 @@ nucMatrix=[[0.25,0.25,0.25,0.25],[0.25,0.25,0.25,0.25],[0.25,0.25,0.25,0.25],[0.
         
      
 
-def nucMarkovChain(matrix,length):
+def nucMarkovChain(matrix,length): #makes one markov chain with input length from a transition matrix
     def chooser(row,matrix,nucs): #chooses a nucleotide to start with based on the matrix#
         def nucLine(row,nucs): #make a row of nucleotide transitions that line up with the transition matrix
             nucLine=[]
@@ -149,13 +149,13 @@ def nucMarkovChain(matrix,length):
                 f=nucs[i]
                 nucLine.append((g,f))
             return nucLine   
-        def nucleotideMatrix(nucs): #iterate the lines into a matrix that corresponds with the additive p matrix
+        def nucleotideMatrix(nucs): #iterate the lines into a matrix that corresponds with the p matrix of tuples, with the first nucleotide as the "in" nucleotide and the second as the "out" nucleotide
             nucMatrix=[]
             for i in range(4):
                 nucMatrix.append(nucLine(i,nucs))
             return nucMatrix  
         nucleotideMatrix=nucleotideMatrix(nucs)        
-        def changeLine(matrix):  #makes a line of additive p's from the matrix
+        def changeLine(matrix):  #makes a line of additive p's from the p matrix ie each p is the sum of itself plus the previous ps
             changeMatrix=[] 
             for i in range(0,4):
                 if i==0:
@@ -164,7 +164,7 @@ def nucMarkovChain(matrix,length):
                     change+=matrix[0][i-1]
                 changeMatrix.append(change)
             return changeMatrix   
-        def changeMat(matrix): # makes a matrix of additive p's from the matrix
+        def changeMat(matrix): # makes a matrix of additive p's from the original p matrix
             nrow=4
             changeMatrix=[]
             if nrow==0:
@@ -175,12 +175,12 @@ def nucMarkovChain(matrix,length):
                     changeMatrix.append(x)
                     nrow=nrow-1
             return changeMatrix  
-        changeMatrix=changeMat(matrix)    #ake the matrix of additive p's
-        nucleotide=""
+        changeMatrix=changeMat(matrix)    #make the matrix of additive p's
+        nucleotide="" #make an empty string for nucleotide
         row=row
         seed=scipy.random.random(1)
-        if seed<=changeMatrix[row][0]:
-            nucleotide=nucleotideMatrix[row][0][1]
+        if seed<=changeMatrix[row][0]: #for the previous state of the chain, references the row of the additive p matrix that corresponds with the previous nucleotide then tests a new random draw against the additive p's and returns the second nucleotide in the tuple accordingly
+            nucleotide=nucleotideMatrix[row][0][1] 
         elif seed<=changeMatrix[row][1]:
             nucleotide=nucleotideMatrix[row][1][1]  
         elif seed<=changeMatrix[row][2]:
@@ -190,13 +190,13 @@ def nucMarkovChain(matrix,length):
         return nucleotide 
     nucs=("A","C","G","T")     #make a list of nucleotides since they won't change no need for user input
     nucleotide=chooser(0,matrix,nucs) #seed the Markov chain with the first nucleotide  
-    chain=[nucleotide]
-    seed=scipy.random.random(1)
-    row=0
-    if length==1:
+    chain=[nucleotide] #make a new chain starting with the "seed" nucleotide
+    seed=scipy.random.random(1) #make a new random draw each iteration
+    row=0 #start at the first row, the lines below will move down the row depending on the previous state of the chain
+    if length==1: #returns the chain at the end of the recursive function
         return chain
     else: #chose a row from the transition matrix based on where the chain was last
-        for state in markovChain(matrix,(length-1)):            
+        for nucleotide in nucMarkovChain(matrix,(length-1)):       #recursive function adds a new nucleotide to the chain for the given length     
             if nucleotide=="A":
                 row=0
             elif nucleotide=="C":
