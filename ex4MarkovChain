@@ -175,7 +175,7 @@ def nucMarkovChain(matrix,length):
                     changeMatrix.append(x)
                     nrow=nrow-1
             return changeMatrix  
-        changeMatrix=changeMat(nucMatrix)    #ake the matrix of additive p's
+        changeMatrix=changeMat(matrix)    #ake the matrix of additive p's
         nucleotide=""
         row=row
         seed=scipy.random.random(1)
@@ -190,24 +190,24 @@ def nucMarkovChain(matrix,length):
         return nucleotide 
     nucs=("A","C","G","T")     #make a list of nucleotides since they won't change no need for user input
     nucleotide=chooser(0,matrix,nucs) #seed the Markov chain with the first nucleotide  
-    start=chooser(0,matrix,nucs)
-    chain=[start]
+    chain=[nucleotide]
     seed=scipy.random.random(1)
+    row=0
     if length==1:
         return chain
     else: #chose a row from the transition matrix based on where the chain was last
-        if nucleotide=="A":
-            row=0
-        elif nucleotide=="C":
-            row=1
-        elif nucleotide=="G":
-            row=2
-        elif nucleotide=="T":
-            row=3
-        for state in markovChain(matrix,(length-1)):
+        for state in markovChain(matrix,(length-1)):            
+            if nucleotide=="A":
+                row=0
+            elif nucleotide=="C":
+                row=1
+            elif nucleotide=="G":
+                row=2
+            elif nucleotide=="T":
+                row=3
             nucleotide=chooser(row,matrix,nucs) #then reference the matrix to decide where to go next
             chain.append(nucleotide)   
-        return chain
+    return chain
         
         
 hundredChain=nucMarkovChain(nucMatrix,100)       ### it wooorkks!!!### 
@@ -223,7 +223,7 @@ def multiNucMC(chains,matrix,length):
             chains=chains-1
     return nucChainMatrix  
 
-hundredMatChain=multiNucMC(100,nucMatrix,100)
+hundredMatChain=multiNucMC(100,nucMatrix2,100)
 
 
     
@@ -253,28 +253,28 @@ def countAllNucs(chain):
                     change=matrix[i][0]
                 else:    
                     change+=matrix[i-1][0]
-                out.append((change,matrix[0][1]))
+                out.append((change,matrix[99][1]))
             final.append(out[99])
             for i in range(100,200):
-                if i==0:
-                    change=matrix[i][0]
+                if i==100:
+                    change1=matrix[i][0]
                 else:    
-                    change+=matrix[i-1][0]
-                out.append((change,matrix[0][1]))
+                    change1+=matrix[i-1][0]
+                out.append((change1,matrix[199][1]))
             final.append(out[199])
             for i in range(200,300):
-                if i==0:
-                    change=matrix[i][0]
+                if i==200:
+                    change2=matrix[i][0]
                 else:    
-                    change+=matrix[i-1][0]
-                out.append((change,matrix[0][1]))
+                    change2+=matrix[i-1][0]
+                out.append((change2,matrix[299][1]))
             final.append(out[299])
             for i in range(300,400):
-                if i==0:
-                    change=matrix[i][0]
+                if i==300:
+                    change3=matrix[i][0]
                 else:    
-                    change+=matrix[i-1][0]
-                out.append((change,matrix[0][1]))
+                    change3+=matrix[i-1][0]
+                out.append((change3,matrix[399][1]))
             final.append(out[399])
         return final
     finout=nucLine(sums)        
