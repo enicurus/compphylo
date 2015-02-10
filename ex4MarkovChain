@@ -60,7 +60,8 @@ def markovChain(matrix,length):
                     state=="B"
                 else:
                     state=="A"
-            chain.append(state)     
+            chain.append(state)
+            chain.reverse 
         return chain
    
                 
