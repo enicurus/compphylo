@@ -193,7 +193,7 @@ def multiMC63(chains,matrix,length):
     return chainMatrix  
     
     
-thousandrun=multiMC63(1000,revMat,3)    
+thousandrun=multiMC63(1000,revMat,25)    
     
 # NOTE: Here is a function that reports the frequencies of a state through time 
 # for replicate simulations. You'll need to do this several times during this exercise.
@@ -224,7 +224,31 @@ StateA=mcStateFreqSum(thousandrun,"A")
 
 StateA
 
-# [0.611, 0.763, 0.786]
+[0.607,
+ 0.762,
+ 0.778,
+ 0.766,
+ 0.749,
+ 0.769,
+ 0.776,
+ 0.77,
+ 0.763,
+ 0.797,
+ 0.789,
+ 0.753,
+ 0.762,
+ 0.79,
+ 0.771,
+ 0.737,
+ 0.776,
+ 0.761,
+ 0.764,
+ 0.749,
+ 0.764,
+ 0.782,
+ 0.755,
+ 0.795,
+ 0.776]
 
 
 # What do you notice about the state frequencies through time? Try another round
@@ -233,21 +257,113 @@ StateA
 
 
 newMat=[[0.1,0.9],[0.1,0.9]]
-secondRun=multiMC63(1000,newMat,3)
+secondRun=multiMC63(1000,newMat,25)
 StateASecondRun=mcStateFreqSum(secondRun,"A")
 StateASecondRun
 
-#[0.663, 0.108, 0.092]
+[0.65,
+ 0.104,
+ 0.111,
+ 0.093,
+ 0.103,
+ 0.092,
+ 0.099,
+ 0.1,
+ 0.101,
+ 0.106,
+ 0.084,
+ 0.102,
+ 0.109,
+ 0.115,
+ 0.104,
+ 0.095,
+ 0.089,
+ 0.103,
+ 0.101,
+ 0.095,
+ 0.113,
+ 0.083,
+ 0.105,
+ 0.095,
+ 0.102]
+
 
 
 
 # Now, calculate a vector of probabilities for the focal state (e.g., 'a')
 # based on the transition matrix directly (not by simulation). How do these
 # values compare to the simulated frequencies?
-
-[0.663,((0.1*0.1)*0.663),((0.1*0.1*0.1)(0.1*0.1)*0.663)]
-
-=[0.663,0.006633,0.00000663]
+secondMat=np.matrix("0.77,0.23;0.29,0.61")
+newMatnumpy=np.matrix("0.1,0.9;0.1,0.9")
 
 
-#the values are much lower for the second two steps
+def MCprobs(timesteps,matrix):
+    out=[]
+    for i in range(len(timesteps)):
+        p=matrix**i
+        out.append(p[0,0])
+    return(out)    
+        
+MCprobs(StateA,secondMat)
+
+"""
+[1.0,
+ 0.77000000000000002,
+ 0.65959999999999996,
+ 0.59993799999999997,
+ 0.5620956399999999,
+ 0.53391696919999998,
+ 0.51028087457599991,
+ 0.48901906832727993,
+ 0.46920312183751822,
+ 0.45042562359988136,
+ 0.43249850246731647,
+ 0.41532640709414448,
+ 0.39885354529559081,
+ 0.38304135044897519,
+ 0.36785908486546259,
+ 0.3532798728834014,
+ 0.33927901337831246,
+ 0.32583324969006044,
+ 0.31292044218082349,
+ 0.30051941058444204,
+ 0.28860984840765813,
+ 0.27717226833703812,
+ 0.26618796139682632,
+ 0.25563896258779401,
+ 0.24550801992823468]
+"""
+
+MCprobs(StateASecondRun,newMatnumpy)
+
+
+
+[1.0,
+ 0.10000000000000001,
+ 0.10000000000000001,
+ 0.10000000000000001,
+ 0.10000000000000001,
+ 0.10000000000000001,
+ 0.10000000000000001,
+ 0.10000000000000001,
+ 0.10000000000000001,
+ 0.10000000000000001,
+ 0.10000000000000001,
+ 0.10000000000000001,
+ 0.10000000000000001,
+ 0.10000000000000001,
+ 0.10000000000000001,
+ 0.10000000000000001,
+ 0.10000000000000001,
+ 0.10000000000000001,
+ 0.10000000000000001,
+ 0.10000000000000001,
+ 0.10000000000000001,
+ 0.10000000000000001,
+ 0.10000000000000001,
+ 0.10000000000000001,
+ 0.10000000000000001]
+ 
+ 
+ 
+ # tha values are super similar
