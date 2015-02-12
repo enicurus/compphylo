@@ -232,14 +232,22 @@ StateA
 # values change?
 
 
-newMat=[[0.1,0.9],[0.9,0.1]]
+newMat=[[0.1,0.9],[0.1,0.9]]
 secondRun=multiMC63(1000,newMat,3)
 StateASecondRun=mcStateFreqSum(secondRun,"A")
 StateASecondRun
 
-#[0.592, 0.102, 0.101]
+#[0.663, 0.108, 0.092]
+
 
 
 # Now, calculate a vector of probabilities for the focal state (e.g., 'a')
 # based on the transition matrix directly (not by simulation). How do these
 # values compare to the simulated frequencies?
+
+[0.663,((0.1*0.1)*0.663),((0.1*0.1*0.1)(0.1*0.1)*0.663)]
+
+=[0.663,0.006633,0.00000663]
+
+
+#the values are much lower for the second two steps
